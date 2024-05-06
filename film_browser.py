@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import requests
+import gspread
 
 url = "https://search.imdbot.workers.dev"
 
@@ -14,9 +15,16 @@ peli = film.json()
 
 error = peli['description']
 
+title = peli['description'][0]['#TITLE']
+year = peli['description'][0]['#YEAR']
+actors = peli['description'][0]['#ACTORS']
 if len(error) == 0:  
 	print("ERROR: titulo no encontrado")
 else:
-	print(f"Titulo: ", peli['description'][0]['#TITLE'], '\n', "Año: ", peli['description'][0]['#YEAR'], '\n', "Actores: ", peli['description'][0]['#ACTORS'])
+	print(f"Titulo: ", title, '\n', "Año: ", year, '\n', "Actores: ", actors)
 
+gc = gspread.service_account()
 
+sh = gc.open("pelis")
+
+sh.sheet1.append_row([title,year,actors])
