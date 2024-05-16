@@ -46,10 +46,11 @@ if int(option) == 2:
 	user_word = input("Que palabra quieres buscar: ")
 	
 	day = sh.worksheet(user_day)
-	day_list = day.col_values(2)
- 	
-	for value in day_list:
-		
-		print(day_list[int(value)])
-	#	if user_word == day_list[recorrer]:
-	#		print(day_list[recorrer])
+	time = day.col_values(1)
+	module = day.col_values(2)
+	message = day.col_values(3)
+
+	pos = module.index(' '+user_word)
+	
+	print(time[pos],module[pos],message[pos])
+
