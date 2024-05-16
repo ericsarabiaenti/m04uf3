@@ -42,15 +42,28 @@ print("2- Buscar por palabra")
 
 option = input("Escoge una opcion con el numero: ")
 
+day = sh.worksheet(user_day)
+time = day.col_values(1)
+module = day.col_values(2)
+message = day.col_values(3)
+
+file = open("backup_dmesg.csv", "w")
+if int(option) == 1:
+	pos = 0
+	for row in time:
+		file.write(time[pos]+";")
+		file.write(module[pos]+";")
+		file.write(message[pos]+"\n")
+		pos = pos + 1
+	file.close()
+	subproccess.getoutput("rm -r backup_dmesg.csv")
+	subprocess.getoutput("gzip -q backup_dmesg.csv")
+	
+	print("Archivo guardado correctamente")
+
 if int(option) == 2:
 	user_word = input("Que palabra quieres buscar: ")
 	
-	day = sh.worksheet(user_day)
-	time = day.col_values(1)
-	module = day.col_values(2)
-	message = day.col_values(3)
-
 	pos = module.index(' '+user_word)
 	
 	print(time[pos],module[pos],message[pos])
-
